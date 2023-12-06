@@ -16,12 +16,6 @@ const INITIAL_VIEW_STATE = {
 };
 
 function App() {
-  const onClick = (info) => {
-    if (info.object) {
-      alert(info.object.properties.Name);
-    }
-  };
-
   const layers = [
     new GeoJsonLayer({
       id: "nationalParks",
@@ -33,12 +27,11 @@ function App() {
       getFillColor: (data) => (data.properties.Name.includes("National Park") ? [0, 0, 0, 250] : [86, 144, 58, 250]),
       pickable: true,
       autoHighlight: true,
-      onClick,
     }),
   ];
 
   return (
-    <DeckGL initialViewState={INITIAL_VIEW_STATE} controller={true} layers={layers}>
+    <DeckGL initialViewState={INITIAL_VIEW_STATE} controller={true} layers={layers} getTooltip={({ object }) => object && `${object.properties.Name} (${object.properties.Code})`}>
       <Map mapStyle={MAP_STYLE} mapboxAccessToken={MAPBOX_ACCESS_TOKEN} />
     </DeckGL>
   );
