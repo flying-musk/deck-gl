@@ -16,8 +16,29 @@ const INITIAL_VIEW_STATE = {
 };
 
 function App() {
+  const onClick = (info) => {
+    if (info.object) {
+      alert(info.object.properties.Name);
+    }
+  };
+
+  const layers = [
+    new GeoJsonLayer({
+      id: "nationalParks",
+      data: NATIONAL_PARKS_DATA,
+      filled: true,
+      pointRadiusMinPixels: 5,
+      pointRadiusScale: 2000,
+      getPointRadius: (f) => 5,
+      getFillColor: [86, 144, 58, 250],
+      pickable: true,
+      autoHighlight: true,
+      onClick,
+    }),
+  ];
+
   return (
-    <DeckGL initialViewState={INITIAL_VIEW_STATE} controller={true}>
+    <DeckGL initialViewState={INITIAL_VIEW_STATE} controller={true} layers={layers}>
       <Map mapStyle={MAP_STYLE} mapboxAccessToken={MAPBOX_ACCESS_TOKEN} />
     </DeckGL>
   );
