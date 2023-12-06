@@ -1,6 +1,6 @@
-import logo from "./logo.svg";
 import "./App.css";
-import NATIONAL_PARKS_DATA from "./data.json";
+import NATIONAL_PARKS_DATA from "./park-data.json";
+import LINE_DATA from "./line-data.json";
 import Map from "react-map-gl";
 import DeckGL, { GeoJsonLayer } from "deck.gl";
 
@@ -8,9 +8,10 @@ const MAPBOX_ACCESS_TOKEN = "pk.eyJ1IjoiZmx5aW5nLW11c2siLCJhIjoiY2xwczdjemVuMDA5
 const MAP_STYLE = "https://basemaps.cartocdn.com/gl/positron-nolabels-gl-style/style.json";
 
 const INITIAL_VIEW_STATE = {
-  latitude: 39.8283,
-  longitude: -98.5795,
-  zoom: 3,
+  longitude: -122.161311,
+  latitude: 37.722619,
+  zoom: 10,
+  maxZoom: 20,
   bearing: 0,
   pitch: 30,
 };
@@ -21,17 +22,39 @@ function App() {
       id: "nationalParks",
       data: NATIONAL_PARKS_DATA,
       filled: true,
-      pointRadiusMinPixels: 5,
+      pointRadiusMinPixels: 3,
       pointRadiusScale: 2000,
-      getPointRadius: (f) => 5,
+      getPointRadius: (f) => 3,
       getFillColor: (data) => (data.properties.Name.includes("National Park") ? [0, 0, 0, 250] : [86, 144, 58, 250]),
-      pickable: true,
       autoHighlight: true,
+      pickable: true,
+    }),
+    new GeoJsonLayer({
+      id: "GeoJsonLayer",
+      data: LINE_DATA,
+      extruded: true,
+      filled: true,
+      getElevation: 30,
+      getFillColor: [160, 160, 180, 200],
+      getLineColor: (f) => {
+        const hex = f.properties.color;
+        return hex ? hex.match(/[0-9a-f]{2}/g).map((x) => parseInt(x, 16)) : [0, 0, 0];
+      },
+      getLineWidth: 20,
+      getPointRadius: 4,
+      getText: (f) => f.properties.name,
+      getTextSize: 12,
+      lineWidthMinPixels: 2,
+      pointRadiusUnits: "pixels",
+      pointType: "circle+text",
+      stroked: false,
+      textLineHeight: 2,
+      pickable: true,
     }),
   ];
 
   return (
-    <DeckGL initialViewState={INITIAL_VIEW_STATE} controller={true} layers={layers} getTooltip={({ object }) => object && `${object.properties.Name} (${object.properties.Code})`}>
+    <DeckGL initialViewState={INITIAL_VIEW_STATE} controller={true} layers={layers} getTooltip={({ object }) => object && (object.properties.Name ? `${object.properties.Name} (${object.properties.Code})` : object.properties.name || object.properties.station)}>
       <Map mapStyle={MAP_STYLE} mapboxAccessToken={MAPBOX_ACCESS_TOKEN} />
     </DeckGL>
   );

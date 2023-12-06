@@ -1038,21 +1038,6 @@
     },
     {
       "type": "Feature",
-      "id": 69,
-      "properties": {
-        "Code": "FOPO",
-        "Name": "Fort Point National Historic Site"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -122.47371724398397,
-          37.8084002052445
-        ]
-      }
-    },
-    {
-      "type": "Feature",
       "id": 70,
       "properties": {
         "Code": "CHSC",
@@ -2758,21 +2743,6 @@
         "coordinates": [
           -106.75778245199358,
           35.12318884610665
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "id": 184,
-      "properties": {
-        "Code": "PRSF",
-        "Name": "Presidio of San Francisco"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -122.46713073964011,
-          37.79654317448044
         ]
       }
     },
@@ -5143,21 +5113,6 @@
         "coordinates": [
           -124.00482968014182,
           41.27702956462916
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "id": 343,
-      "properties": {
-        "Code": "GOGA",
-        "Name": "Golden Gate National Recreation Area"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -122.55146603311029,
-          37.862648681885084
         ]
       }
     },
