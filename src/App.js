@@ -30,7 +30,7 @@ function App() {
       pointRadiusMinPixels: 5,
       pointRadiusScale: 2000,
       getPointRadius: (f) => 5,
-      getFillColor: [86, 144, 58, 250],
+      getFillColor: (data) => (data.properties.Name.includes("National Park") ? [0, 0, 0, 250] : [86, 144, 58, 250]),
       pickable: true,
       autoHighlight: true,
       onClick,
