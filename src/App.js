@@ -8,9 +8,9 @@ const MAPBOX_ACCESS_TOKEN = "pk.eyJ1IjoiZmx5aW5nLW11c2siLCJhIjoiY2xwczdjemVuMDA5
 const MAP_STYLE = "https://basemaps.cartocdn.com/gl/positron-nolabels-gl-style/style.json";
 
 const INITIAL_VIEW_STATE = {
-  longitude: -122.161311,
-  latitude: 37.722619,
-  zoom: 9.86,
+  longitude: -122.191311,
+  latitude: 37.862619,
+  zoom: 9.68,
   maxZoom: 20,
   bearing: 0,
   pitch: 30,
@@ -54,9 +54,12 @@ function App() {
   ];
 
   return (
-    <DeckGL initialViewState={INITIAL_VIEW_STATE} controller={true} layers={layers} getTooltip={({ object }) => object && (object.properties.Name ? `${object.properties.Name} (${object.properties.Code})` : object.properties.name || object.properties.station)}>
-      <Map mapStyle={MAP_STYLE} mapboxAccessToken={MAPBOX_ACCESS_TOKEN} />
-    </DeckGL>
+    <>
+      <div className="absolute z-[100] top-[0] left-[0] right-[0] bg-[white] border  border-[red]">hihi</div>
+      <DeckGL initialViewState={INITIAL_VIEW_STATE} controller={true} layers={layers} getTooltip={({ object }) => object && (object.properties.Name ? `${object.properties.Name} (${object.properties.Code})` : object.properties.name || object.properties.station)}>
+        <Map mapStyle={MAP_STYLE} mapboxAccessToken={MAPBOX_ACCESS_TOKEN} />
+      </DeckGL>
+    </>
   );
 }
 
