@@ -14,7 +14,7 @@ const INITIAL_VIEW_STATE = {
   zoom: 9.68,
   maxZoom: 20,
   bearing: 0,
-  pitch: 30,
+  pitch: 0,
 };
 
 function App() {
@@ -40,10 +40,10 @@ function App() {
       id: "nationalParks",
       data: nationalParksData,
       filled: true,
-      pointRadiusMinPixels: 3,
+      pointRadiusMinPixels: 2.5,
       pointRadiusScale: 2000,
-      getPointRadius: (f) => 3,
-      getFillColor: (data) => (data.properties.searched ? [100, 105, 155] : [86, 144, 58, 250]),
+      getPointRadius: (f) => 2.5,
+      getFillColor: (data) => (data.properties.searched ? [255, 165, 0, 250] : [86, 144, 58, 250]),
       autoHighlight: true,
       pickable: true,
     }),
@@ -73,8 +73,18 @@ function App() {
 
   return (
     <>
-      <div className="absolute z-[100] top-[0] left-[0] right-[0] bg-[white] border-b p-[16px] flex">
-        <input className="grow" type="text" onChange={handleInputChange} placeholder="Search for keywords like 'Park', etc." />
+      <div className="absolute z-[100] top-[0] left-[0] right-[0] bg-[white] border-b p-[16px] flex flex-col gap-[12px]">
+        <h1 className="!m-0 text-2xl font-bold mb-4">Explore National Parks</h1>
+        <p className="!m-0 text-gray-600 mb-4">
+          <div>Discover and learn about national parks across the country.</div>
+          <ul className="list-disc pl-4 text-sm text-gray-500">
+            <li>Green dots represent national parks.</li>
+            <li>Zoom out to see all the parks across the US.</li>
+            <li>Hover over a dot to see its name.</li>
+            <li>Search for keywords to highlight specific parks.</li>
+          </ul>
+        </p>
+        <input className="!m-0 outline-none grow self-stretch mb-4 p-2 border rounded" type="text" onChange={handleInputChange} placeholder="Search for keywords like 'Park', etc." />
       </div>
       <DeckGL initialViewState={INITIAL_VIEW_STATE} controller={true} layers={layers} getTooltip={({ object }) => object && (object.properties.Name ? `${object.properties.Name} (${object.properties.Code})` : object.properties.name || object.properties.station)}>
         <Map mapStyle={MAP_STYLE} mapboxAccessToken={MAPBOX_ACCESS_TOKEN} />
