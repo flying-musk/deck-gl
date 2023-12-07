@@ -10,7 +10,7 @@ const MAP_STYLE = "https://basemaps.cartocdn.com/gl/positron-nolabels-gl-style/s
 const INITIAL_VIEW_STATE = {
   longitude: -122.161311,
   latitude: 37.722619,
-  zoom: 10,
+  zoom: 9.86,
   maxZoom: 20,
   bearing: 0,
   pitch: 30,
