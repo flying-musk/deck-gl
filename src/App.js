@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import "./App.css";
 import NATIONAL_PARKS_DATA from "./park-data.json";
 import LINE_DATA from "./line-data.json";
@@ -17,6 +18,11 @@ const INITIAL_VIEW_STATE = {
 };
 
 function App() {
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const handleInputChange = (e) => {
+    setSearchKeyword(e.target.value);
+  };
+
   const layers = [
     new GeoJsonLayer({
       id: "nationalParks",
@@ -55,7 +61,10 @@ function App() {
 
   return (
     <>
-      <div className="absolute z-[100] top-[0] left-[0] right-[0] bg-[white] border  border-[red]">hihi</div>
+      <div className="absolute z-[100] top-[0] left-[0] right-[0] bg-[white] border  border-[red] p-[16px] flex">
+        <div className="border">{searchKeyword}</div>
+        <input className="grow" type="text" value={searchKeyword} onChange={handleInputChange} placeholder="Search for keywords like 'Park', etc." />
+      </div>
       <DeckGL initialViewState={INITIAL_VIEW_STATE} controller={true} layers={layers} getTooltip={({ object }) => object && (object.properties.Name ? `${object.properties.Name} (${object.properties.Code})` : object.properties.name || object.properties.station)}>
         <Map mapStyle={MAP_STYLE} mapboxAccessToken={MAPBOX_ACCESS_TOKEN} />
       </DeckGL>
