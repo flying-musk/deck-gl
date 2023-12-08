@@ -21,15 +21,21 @@ function App() {
   const handleInputChange = (e) => {
     const searchedKeyword = e.target.value;
 
+    const individualKeywords = searchedKeyword.toLowerCase().split(" ").filter(Boolean);
+
     setNationalParksData({
       ...NATIONAL_PARKS_DATA,
-      features: NATIONAL_PARKS_DATA.features.map((feature) => ({
-        ...feature,
-        properties: {
-          ...feature.properties,
-          searched: searchedKeyword !== "" && feature.properties.Name.toLowerCase().includes(searchedKeyword.toLowerCase()),
-        },
-      })),
+      features: NATIONAL_PARKS_DATA.features.map((feature) => {
+        const parkName = feature.properties.Name.toLowerCase();
+        const searched = individualKeywords.some((keyword) => parkName.includes(keyword));
+        return {
+          ...feature,
+          properties: {
+            ...feature.properties,
+            searched: searched,
+          },
+        };
+      }),
     });
   };
 
