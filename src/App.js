@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import NATIONAL_PARKS_DATA from "./park-data.json";
 import LINE_DATA from "./line-data.json";
@@ -16,28 +16,38 @@ const INITIAL_VIEW_STATE = {
   bearing: 0,
   pitch: 0,
 };
+const DEBOUNCING_TIME = 500;
 
 function App() {
-  const handleInputChange = (e) => {
-    const searchedKeyword = e.target.value;
+  const [individualKeywords, setIndividualKeywords] = React.useState([]);
 
-    const individualKeywords = searchedKeyword.toLowerCase().split(" ").filter(Boolean);
+  const handleInputChange = ({ target: { value } }) => {
+    const individualKeywords = value.toLowerCase().split(" ").filter(Boolean);
 
-    setNationalParksData({
-      ...NATIONAL_PARKS_DATA,
-      features: NATIONAL_PARKS_DATA.features.map((feature) => {
-        const parkName = feature.properties.Name.toLowerCase();
-        const searched = individualKeywords.some((keyword) => parkName.includes(keyword));
-        return {
-          ...feature,
-          properties: {
-            ...feature.properties,
-            searched: searched,
-          },
-        };
-      }),
-    });
+    setIndividualKeywords(individualKeywords);
   };
+  useEffect(() => {
+    const getData = setTimeout(() => {
+      setNationalParksData({
+        ...NATIONAL_PARKS_DATA,
+        features: NATIONAL_PARKS_DATA.features.map((feature) => {
+          const parkName = feature.properties.Name.toLowerCase();
+          const searched = individualKeywords.some((keyword) =>
+            parkName.includes(keyword)
+          );
+          return {
+            ...feature,
+            properties: {
+              ...feature.properties,
+              searched: searched,
+            },
+          };
+        }),
+      });
+    }, DEBOUNCING_TIME);
+
+    return () => clearTimeout(getData);
+  }, [individualKeywords]);
 
   const [nationalParksData, setNationalParksData] = useState(NATIONAL_PARKS_DATA);
 
